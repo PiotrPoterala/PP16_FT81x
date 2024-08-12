@@ -1,0 +1,16 @@
+--cpu=Cortex-M4.fp.sp --branchpatch=sdcomp-29491-629360
+".\objects\delay.o"
+".\objects\main.o"
+".\objects\pp16_config.o"
+".\objects\pp_tftgraph_ft8xx.o"
+".\objects\pp_extram_quadspi_ft8xx.o"
+".\objects\pp_extram_quadspi.o"
+".\objects\pp_queue_with_timeout.o"
+".\objects\pp_queue.o"
+".\objects\pp_math.o"
+".\objects\startup_stm32l4r5xx.o"
+".\objects\system_stm32l4xx.o"
+--strict --scatter ".\Objects\PP16_FT81x.sct"
+--summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
+--info sizes --info totals --info unused --info veneers
+--list ".\Listings\PP16_FT81x.map" -o .\Objects\PP16_FT81x.axf
