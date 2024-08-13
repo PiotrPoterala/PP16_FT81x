@@ -50,3 +50,25 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+
+# ignore all files in the Listings/ directory
+Listings/
+Lst/
+DebugConfig/
+
+# no .a or .o files
+*.[aod]
+
+# no files
+*.crf
+*.htm
+*.axf
+*.dep
+*.lnp
+*.sct
+*.Bak
+*.poter
+*.iex
+*.lst
+*.map
+*.scvd

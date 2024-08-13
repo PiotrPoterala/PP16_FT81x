@@ -1,11 +1,10 @@
 #include "pp16_config.h"
 #include "platform_io_signals.h"
 
-//konfigurowanie sygnalow taktujacych
 void RCC_Config(void){
 
 		int StartUpCounter = 0;
-//startowe ustawienia rejestrów zegara oraz flash
+
 		SystemInit();
 
 		RCC->CR |= RCC_CR_HSEON;
@@ -26,11 +25,6 @@ void RCC_Config(void){
 			RCC->PLLCFGR=(RCC->PLLCFGR & ~RCC_PLLCFGR_PLLR) | RCC_PLLCFGR_PLLR_DIV2;
 			RCC->PLLCFGR|=RCC_PLLCFGR_PLLREN;
 			
-//			RCC->PLLSAI1CFGR=(RCC->PLLSAI1CFGR & ~RCC_PLLSAI1CFGR_PLLSAI1M) | RCC_PLLSAI1CFGR_PLLSAI1M_DIV2;
-//			RCC->PLLSAI1CFGR=(RCC->PLLSAI1CFGR & ~RCC_PLLSAI1CFGR_PLLSAI1N) | RCC_PLLSAI1CFGR_PLLSAI1N_MUL15;
-//			RCC->PLLSAI1CFGR=(RCC->PLLSAI1CFGR & ~RCC_PLLSAI1CFGR_PLLSAI1Q) | RCC_PLLSAI1CFGR_PLLSAI1Q_DIV2;
-//			RCC->PLLSAI1CFGR|=RCC_PLLSAI1CFGR_PLLSAI1QEN;			//konfiguracja zegara dla USB host
-			
 			RCC->CR|=RCC_CR_PLLON;
 			while(!(RCC->CR & RCC_CR_PLLRDY)) 
 				;   
@@ -46,10 +40,6 @@ void RCC_Config(void){
 			while ((RCC->CFGR & (uint32_t)RCC_CFGR_SWS ) != RCC_CFGR_SWS_PLL)
 				;
 				
-//			RCC->CR |= RCC_CR_HSION;
-//			
-//			while(!(RCC->CR & RCC_CR_HSIRDY)) 
-//			;
 			
 		}else{
 			RCC->CR |= RCC_CR_HSION;
@@ -86,12 +76,9 @@ void RCC_Config(void){
 				;  
 		RCC->CCIPR=(RCC->CCIPR & ~RCC_CCIPR_CLK48SEL);		//konfiguracja zegara dla USB host
 		
-//		RCC->CCIPR=(RCC->CCIPR & ~RCC_CCIPR_CLK48SEL) | RCC_CCIPR_CLK48SEL_0;		//konfiguracja zegara dla USB host
-		
 		SystemCoreClockUpdate();
 
 //odblokowanie taktowania dla niezbędnych peryferiów
-	//	RCC->AHB2ENR |= RCC_AHB2ENR_OTGFSEN;
 		RCC->AHB3ENR |= RCC_AHB3ENR_OSPI1EN;
 		
 		RCC->AHB2ENR |= RCC_AHB2ENR_GPIOAEN;
@@ -102,22 +89,13 @@ void RCC_Config(void){
 		RCC->AHB2ENR |= RCC_AHB2ENR_GPIOFEN;		
 		RCC->AHB2ENR |= RCC_AHB2ENR_GPIOGEN;	
 
-		RCC->APB1ENR1|=RCC_APB1ENR1_TIM2EN;
-		RCC->APB1ENR1|=RCC_APB1ENR1_TIM3EN;
-		RCC->APB1ENR1|=RCC_APB1ENR1_TIM4EN;
 		RCC->APB1ENR1|=RCC_APB1ENR1_TIM5EN;
-		RCC->APB1ENR1|=RCC_APB1ENR1_TIM6EN;
-		RCC->APB1ENR1|=RCC_APB1ENR1_TIM7EN;
-		RCC->APB1ENR1|=RCC_APB1ENR1_USART3EN;		
-		RCC->APB1ENR1|=RCC_APB1ENR1_UART4EN;
 		RCC->APB1ENR1|=RCC_APB1ENR1_PWREN;
 
-		RCC->APB2ENR|=RCC_APB2ENR_USART1EN;
-		RCC->APB2ENR|=RCC_APB2ENR_TIM1EN;
 		RCC->APB2ENR|=RCC_APB2ENR_TIM8EN;
 		RCC->APB2ENR|= RCC_APB2ENR_SYSCFGEN;
 		
-		PWR->CR2|=PWR_CR2_IOSV;	//włączenie zasilania na PG[15:2]
+		PWR->CR2|=PWR_CR2_IOSV;	//switch on PG[15:2]
 
 }
 
@@ -125,45 +103,16 @@ void RCC_Config(void){
 void NVIC_Config(void){
 		#define DRIVE_TIM_PRIO	7
 
-		NVIC_SetPriorityGrouping(NVIC_PriGroup_4); //16 priorytetów preemption, brak subpriorytetów 
+		NVIC_SetPriorityGrouping(NVIC_PriGroup_4);
 	
-		NVIC_SetPriority(PVD_PVM_IRQn, 1); 
-		NVIC_EnableIRQ(PVD_PVM_IRQn);
-
-		NVIC_SetPriority(UART4_IRQn, 2);  
-		NVIC_EnableIRQ(UART4_IRQn);
-
-		NVIC_SetPriority(USART1_IRQn, 3);  
-		NVIC_EnableIRQ(USART1_IRQn);
-
-		NVIC_SetPriority(USART3_IRQn, 4);  
-		NVIC_EnableIRQ(USART3_IRQn);
 	
-		NVIC_SetPriority(OCTOSPI1_IRQn, 5); 
+		NVIC_SetPriority(OCTOSPI1_IRQn, 1); 
 		NVIC_EnableIRQ(OCTOSPI1_IRQn);
-	
-		NVIC_SetPriority(TIM1_UP_TIM16_IRQn, 6); 	
-		NVIC_EnableIRQ(TIM1_UP_TIM16_IRQn);
 		
-		NVIC_SetPriority(TIM2_IRQn, DRIVE_TIM_PRIO); 
-		NVIC_EnableIRQ(TIM2_IRQn);
-
-		NVIC_SetPriority(TIM3_IRQn, DRIVE_TIM_PRIO); 
-		NVIC_EnableIRQ(TIM3_IRQn);
-
-		NVIC_SetPriority(TIM6_DAC_IRQn, DRIVE_TIM_PRIO); 
-		NVIC_EnableIRQ(TIM6_DAC_IRQn);
-
-		NVIC_SetPriority(TIM4_IRQn, DRIVE_TIM_PRIO); 
-		NVIC_EnableIRQ(TIM4_IRQn);
-
-		NVIC_SetPriority(TIM7_IRQn, DRIVE_TIM_PRIO); 
-		NVIC_EnableIRQ(TIM7_IRQn);
-		
-		NVIC_SetPriority(TIM5_IRQn, 8);
+		NVIC_SetPriority(TIM5_IRQn, 2);
 		NVIC_EnableIRQ(TIM5_IRQn);
 		
-		NVIC_SetPriority(TIM8_UP_IRQn, 9); 
+		NVIC_SetPriority(TIM8_UP_IRQn, 3); 
 		NVIC_EnableIRQ(TIM8_UP_IRQn);
 		
 
@@ -195,12 +144,6 @@ void GPIO_Config(void)
 	GPIOA->AFR[1]=(GPIOA->AFR[1] & ~(0xFu<<(Pin9-8)*4)) | (GPIO_AFR_AF7<<((Pin9-8)*4)); //USART1 TX
 	ALT_SET_REG(GPIOA, Pin10, IO_OUT_HS);
 	GPIOA->AFR[1]=(GPIOA->AFR[1] & ~(0xFu<<((Pin10-8)*4))) | (GPIO_AFR_AF7<<((Pin10-8)*4));	//USART1 RX
-
-
-//	ALT_SET_REG(GPIOA, Pin11, IO_OUT_HS);
-//	GPIOA->AFR[1]=(GPIOA->AFR[1] & ~(0xFu<<(Pin11-8)*4)) | (GPIO_AFR_AF10<<((Pin11-8)*4)); //OTG_FS_DM
-//	ALT_SET_REG(GPIOA, Pin12, IO_OUT_HS);
-//	GPIOA->AFR[1]=(GPIOA->AFR[1] & ~(0xFu<<((Pin12-8)*4))) | (GPIO_AFR_AF10<<((Pin12-8)*4));	//OTG_FS_DP
 
 //	OUT_SET_REG_WITH_TYPE(GPIOA, Pin13, IO_PP, IO_OUT_HS);		//LED1
 //	OUT_SET_REG_WITH_TYPE(GPIOA, Pin14, IO_PP, IO_OUT_HS);		//LED2
@@ -332,16 +275,8 @@ void GPIO_Config(void)
 	PIN_SET(LED_PORT, LED1);
 	PIN_CLR(LED_PORT, LED2);
 
-	PIN_CLR(PORT_WIFI, PIN_WIFI_EN);
-	PIN_SET(PORT_USBA_EN, PIN_USBA_EN);
 	PIN_SET(PORT_TFT, PIN_TFT_PD);
 }
-
-
-
-
-
-
 
 
 void TIM_Config(void){
@@ -359,7 +294,15 @@ void TIM_Config(void){
 	TIM5->CR1 &= ~TIM_CR1_CEN;
 //--------------------------------------------------------------------------
 
+	TIM8->CR1&=~TIM_CR1_DIR;  
+	TIM8->CR1&=~TIM_CR1_CMS;  
+	TIM8->PSC=1000-1;	
+	TIM8->ARR=((APB2ClockFreq/(TIM8->PSC+1))/BASE_FREQUENCY_OF_TIM8)-1;		
+  TIM8->EGR = TIM_EGR_UG;  
 
+	TIM8->DIER &= ~TIM_DIER_UIE;
+	TIM8->CR1 &= ~TIM_CR1_CEN;	
+//--------------------------------------------------------------------------
 }
 
 
@@ -367,23 +310,19 @@ void OCTOSPI_Config(void){
 	
 	RCC->CCIPR2 &=~ RCC_CCIPR2_OSPISEL;	//upewnienie się że na OCTOSPI pójdzie zegar systemowy
 
-	OCTOSPI1->CR&=~OCTOSPI_CR_FSEL;	//wybór flash 1
-	OCTOSPI1->CR&=~OCTOSPI_CR_DQM;		//wyłączenie dual-flash
+	OCTOSPI1->CR&=~OCTOSPI_CR_FSEL;	//on flash 1
+	OCTOSPI1->CR&=~OCTOSPI_CR_DQM;		//on dual-flash
 	OCTOSPI1->CR=(OCTOSPI1->CR & ~OCTOSPI_CR_FTHRES) | (3<<OCTOSPI_CR_FTHRES_Pos);
-	OCTOSPI1->CR = (OCTOSPI1->CR & ~OCTOSPI_CR_FMODE);			//włączenie funkcji zapisu pośredniego (indirect mode)
+	OCTOSPI1->CR = (OCTOSPI1->CR & ~OCTOSPI_CR_FMODE);			//indirect mode
 
-//	OCTOSPI1->DCR1=(OCTOSPI1->DCR1 & ~OCTOSPI_DCR1_DEVSIZE) | (21<<OCTOSPI_DCR1_DEVSIZE_Pos);	//deklaracja rozmiaru pamięci zewnętrznej (1MB)
 	OCTOSPI1->DCR1=(OCTOSPI1->DCR1 & ~OCTOSPI_DCR1_DEVSIZE) | (31<<OCTOSPI_DCR1_DEVSIZE_Pos);
-	OCTOSPI1->DCR1&=~OCTOSPI_DCR1_CSHT;//???
-//	OCTOSPI1->DCR1=(OCTOSPI1->DCR1 & ~OCTOSPI_DCR1_CSHT) | (5<<OCTOSPI_DCR1_CSHT_Pos);
+	OCTOSPI1->DCR1&=~OCTOSPI_DCR1_CSHT;
 	OCTOSPI1->DCR1&=~OCTOSPI_DCR1_CKMODE;
-//	OCTOSPI1->DCR1|=OCTOSPI_DCR1_FRCK;	//ciągłe dostarczanie zegara
-	OCTOSPI1->DCR1=(OCTOSPI1->DCR1 & ~OCTOSPI_DCR1_MTYP) | OCTOSPI_DCR1_MTYP_1;	//obsługa standardowej pamięci
+	OCTOSPI1->DCR1=(OCTOSPI1->DCR1 & ~OCTOSPI_DCR1_MTYP) | OCTOSPI_DCR1_MTYP_1;	
 	
-//	OCTOSPI1->DCR2=(OCTOSPI1->DCR2 & ~OCTOSPI_DCR2_PRESCALER) | (7<<OCTOSPI_DCR2_PRESCALER_Pos);	//15MHz dla single line
-	OCTOSPI1->DCR2=(OCTOSPI1->DCR2 & ~OCTOSPI_DCR2_PRESCALER) | (21<<OCTOSPI_DCR2_PRESCALER_Pos);	//6MHz dla quad line
+//	OCTOSPI1->DCR2=(OCTOSPI1->DCR2 & ~OCTOSPI_DCR2_PRESCALER) | (7<<OCTOSPI_DCR2_PRESCALER_Pos);	//15MHz for single line
+	OCTOSPI1->DCR2=(OCTOSPI1->DCR2 & ~OCTOSPI_DCR2_PRESCALER) | (21<<OCTOSPI_DCR2_PRESCALER_Pos);	//6MHz for quad line
 
-//	OCTOSPI1->TCR|=OCTOSPI_TCR_SSHIFT;
 	OCTOSPI1->TCR = (OCTOSPI1->TCR & ~OCTOSPI_TCR_DCYC);			//brak pustych cykli
 
 	OCTOSPI1->CCR = (OCTOSPI1->CCR & ~OCTOSPI_CCR_IMODE);			//brak instrukcji

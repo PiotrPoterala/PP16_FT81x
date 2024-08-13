@@ -6,9 +6,9 @@
 #include "config.h"
 
 #include "pp_tftgraph_ft8xx.h"
+#include "set_screen_tft.h"
 
-
-	
+defOScreen oScreen;
 PExtRam extramFT8xx;
 PTFTgraph tft;
 
@@ -22,8 +22,6 @@ int main(void){
 		NVIC_Config();
 		GPIO_Config();
 		TIM_Config();
-
-
 		OCTOSPI_Config();
 		
 		volatile int commExtRamFT8xxReceiveTab[256];
@@ -45,9 +43,11 @@ int main(void){
 
 		
 
-		tft.drawLogo(&tft.data);	//intro wprowadza 3s opóźnienie pozwalające na sprawdzenie czy jest podłączony pendrive
-	//	OScreenConstruct(&oScreen, &tft);	
+		tft.drawLogo(&tft.data);	
+		OScreenConstruct(&oScreen, &tft);	
 		
+		TIM8->DIER |= TIM_DIER_UIE;					
+		TIM8->CR1 |= TIM_CR1_CEN ;	
 		
 		TIM5->DIER |= TIM_DIER_UIE;					
 		TIM5->CR1 |= TIM_CR1_CEN ;	

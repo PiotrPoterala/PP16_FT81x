@@ -4,15 +4,10 @@
 
 	#define BASE_FREQUENCY_OF_SYS_TICK	10
 
-	#define BASE_FREQUENCY_OF_TIM1	24000	//ustawienie podstawy czasowej na 4x max częstotliwość ruchu 
-	#define BASE_FREQUENCY_OF_TIM2	12000
-	#define BASE_FREQUENCY_OF_TIM3	12000
-	#define BASE_FREQUENCY_OF_TIM4	12000
-	#define BASE_FREQUENCY_OF_TIM7	12000
-	#define BASE_FREQUENCY_OF_TIM8	10000
+	#define BASE_FREQUENCY_OF_TIM8	1
 
 	#define BASE_FREQUENCY_OF_TIM5	10 
-	#define BASE_FREQUENCY_OF_TIM6	3000
+
 	
 
 

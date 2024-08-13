@@ -19,22 +19,9 @@
 
 void HardFault_Handler(void);
 void SysTick_Handler(void);
-void PVD_PVM_IRQHandler(void);
-void TIM1_UP_TIM16_IRQHandler(void);
-void TIM2_IRQHandler(void);
-void TIM3_IRQHandler(void);
-void TIM4_IRQHandler(void);
+
 void TIM5_IRQHandler(void);
-void TIM6_DAC_IRQHandler(void);
-void TIM7_IRQHandler(void);
 void TIM8_UP_IRQHandler(void);
-
-void TIM1_BRK_TIM15_IRQHandler(void);
-
-void UART4_IRQHandler(void);
-void USART1_IRQHandler(void);
-void USART3_IRQHandler(void);
-void OTG_FS_IRQHandler(void);
 void OCTOSPI1_IRQHandler(void);
 
 

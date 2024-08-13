@@ -1,0 +1,15 @@
+#ifndef _TOUCH_SCREEN_TAGS_H
+	#define _TOUCH_SCREEN_TAGS_H
+
+
+#define NO_TAG 	0
+
+enum{
+	TAG_FIRST_BUTTON=128,
+	TAG_SECOND_BUTTON,
+	TAG_ESCAPE
+};
+
+
+#endif
+

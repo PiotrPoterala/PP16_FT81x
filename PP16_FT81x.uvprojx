@@ -10,8 +10,8 @@
       <TargetName>Target 1</TargetName>
       <ToolsetNumber>0x4</ToolsetNumber>
       <ToolsetName>ARM-ADS</ToolsetName>
-      <pCCUsed>5060750::V5.06 update 6 (build 750)::ARMCC</pCCUsed>
-      <uAC6>0</uAC6>
+      <pCCUsed>6130001::V6.13.1::.\ARMCLANG</pCCUsed>
+      <uAC6>1</uAC6>
       <TargetOption>
         <TargetCommonOption>
           <Device>STM32L4R5ZGTx</Device>
@@ -52,7 +52,7 @@
           <OutputName>PP16_FT81x</OutputName>
           <CreateExecutable>1</CreateExecutable>
           <CreateLib>0</CreateLib>
-          <CreateHexFile>0</CreateHexFile>
+          <CreateHexFile>1</CreateHexFile>
           <DebugInformation>1</DebugInformation>
           <BrowseInformation>1</BrowseInformation>
           <ListingPath>.\Listings\</ListingPath>
@@ -134,11 +134,11 @@
             <RunIndependent>0</RunIndependent>
             <UpdateFlashBeforeDebugging>1</UpdateFlashBeforeDebugging>
             <Capability>1</Capability>
-            <DriverSelection>-1</DriverSelection>
+            <DriverSelection>4103</DriverSelection>
           </Flash1>
-          <bUseTDR>1</bUseTDR>
-          <Flash2>BIN\UL2CM3.DLL</Flash2>
-          <Flash3></Flash3>
+          <bUseTDR>0</bUseTDR>
+          <Flash2>STLink\ST-LINKIII-KEIL_SWO.dll</Flash2>
+          <Flash3>"" ()</Flash3>
           <Flash4></Flash4>
           <pFcarmOut></pFcarmOut>
           <pFcarmGrp></pFcarmGrp>
@@ -284,8 +284,8 @@
               </OCR_RVCT5>
               <OCR_RVCT6>
                 <Type>0</Type>
-                <StartAddress>0x20040000</StartAddress>
-                <Size>0x60000</Size>
+                <StartAddress>0x0</StartAddress>
+                <Size>0x0</Size>
               </OCR_RVCT6>
               <OCR_RVCT7>
                 <Type>0</Type>
@@ -300,19 +300,19 @@
               <OCR_RVCT9>
                 <Type>0</Type>
                 <StartAddress>0x20000000</StartAddress>
-                <Size>0x30000</Size>
+                <Size>0xa0000</Size>
               </OCR_RVCT9>
               <OCR_RVCT10>
                 <Type>0</Type>
-                <StartAddress>0x10000000</StartAddress>
-                <Size>0x10000</Size>
+                <StartAddress>0x0</StartAddress>
+                <Size>0x0</Size>
               </OCR_RVCT10>
             </OnChipMemories>
             <RvctStartVector></RvctStartVector>
           </ArmAdsMisc>
           <Cads>
             <interw>1</interw>
-            <Optim>1</Optim>
+            <Optim>7</Optim>
             <oTime>0</oTime>
             <SplitLS>0</SplitLS>
             <OneElfS>1</OneElfS>
@@ -321,16 +321,16 @@
             <PlainCh>0</PlainCh>
             <Ropi>0</Ropi>
             <Rwpi>0</Rwpi>
-            <wLevel>2</wLevel>
+            <wLevel>3</wLevel>
             <uThumb>0</uThumb>
             <uSurpInc>0</uSurpInc>
             <uC99>1</uC99>
             <uGnu>1</uGnu>
             <useXO>0</useXO>
-            <v6Lang>1</v6Lang>
-            <v6LangP>1</v6LangP>
-            <vShortEn>1</vShortEn>
-            <vShortWch>1</vShortWch>
+            <v6Lang>3</v6Lang>
+            <v6LangP>3</v6LangP>
+            <vShortEn>0</vShortEn>
+            <vShortWch>0</vShortWch>
             <v6Lto>0</v6Lto>
             <v6WtE>0</v6WtE>
             <v6Rtti>0</v6Rtti>
@@ -407,6 +407,21 @@
               <FileType>1</FileType>
               <FilePath>.\pp16_config.c</FilePath>
             </File>
+            <File>
+              <FileName>stm32l4_it.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\stm32l4_it.c</FilePath>
+            </File>
+            <File>
+              <FileName>set_screen_tft.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\set_screen_tft.c</FilePath>
+            </File>
+            <File>
+              <FileName>pp_pointXY.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\PP_Library_C_hub\PP_Param\pp_pointXY.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -421,6 +436,11 @@
               <FileName>pp_tftgraph_ft8xx.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\PP_Library_C_hub\PP_LCDgraph_Library\pp_tftgraph_ft8xx.c</FilePath>
+            </File>
+            <File>
+              <FileName>touch_screen_tags.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\touch_screen_tags.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -466,6 +486,16 @@
               <FileName>pp_math.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\PP_Library_C_hub\PP_Math\pp_math.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Data</GroupName>
+          <Files>
+            <File>
+              <FileName>colors.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\PP_Library_C_hub\PP_LCDgraph_Library\colors.h</FilePath>
             </File>
           </Files>
         </Group>
