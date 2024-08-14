@@ -90,6 +90,8 @@ void TIM5_IRQHandler(void)
 					oScreen.idScreen=MENU_SCREEN;
 				}else if(prevTouchScreenTag==TAG_FIRST_BUTTON){
 					oScreen.idScreen=PRIMITIVES_SCREEN;
+				}else if(prevTouchScreenTag==TAG_SECOND_BUTTON){
+					oScreen.idScreen=GRAPHICS_OBJECTS_SCREEN;
 				}
 			}
 			
@@ -104,6 +106,9 @@ void TIM5_IRQHandler(void)
 					break;
 				case PRIMITIVES_SCREEN:
 					touchScreenTag=oScreen.primitivesScreen(&tft);
+					break;
+				case GRAPHICS_OBJECTS_SCREEN:
+					touchScreenTag=oScreen.graphicsObjectsScreen(&tft);
 					break;
 								
 			}

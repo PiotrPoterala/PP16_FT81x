@@ -5,15 +5,17 @@
 
 enum{
 	MENU_SCREEN=0,
-	PRIMITIVES_SCREEN
+	PRIMITIVES_SCREEN,
+	GRAPHICS_OBJECTS_SCREEN
 };
 
 
 	typedef struct{
-			unsigned int idScreen;
+		unsigned int idScreen;
 
-			unsigned int (*menuScreen)(PTFTgraph *tft);
-			unsigned int (*primitivesScreen)(PTFTgraph *tft);
+		unsigned int (*menuScreen)(PTFTgraph *tft);
+		unsigned int (*primitivesScreen)(PTFTgraph *tft);
+		unsigned int (*graphicsObjectsScreen)(PTFTgraph *tft);
 	}defOScreen;
 
 
@@ -24,4 +26,5 @@ enum{
 	
 	unsigned int menuScreen(PTFTgraph *tft);
 	unsigned int primitivesScreen(PTFTgraph *tft);
+	unsigned int graphicsObjectsScreen(PTFTgraph *tft);
 #endif
