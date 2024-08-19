@@ -80,7 +80,6 @@ unsigned int primitivesScreen(PTFTgraph *tft){
 		tft->writePrimitive(&tft->data, CMD_DLSTART);
 		tft->writePrimitive(&tft->data, CLEAR_COLOR_HEX(BLACK));
 		tft->writePrimitive(&tft->data, CLEAR(1,0,1));	
-		tft->writePrimitive(&tft->data, VERTEX_FORMAT(0));
 		
 		tft->drawRectangular(&tft->data, (PXY){25,25}, (PXY){125,50}, WHITE, 64);
 		
@@ -116,38 +115,39 @@ unsigned int primitivesScreen(PTFTgraph *tft){
 unsigned int graphicsObjectsScreen(PTFTgraph *tft){
 		#define TEXT_FONT			30				
 	
-		unsigned int buttonHeight=tft->fontHeight(&tft->data, MENU_BUTTON_FONT)+30;									
-		unsigned int distLine=buttonHeight+10;
+		unsigned int buttonHeight=tft->fontHeight(&tft->data, MENU_BUTTON_FONT)+20;									
+		unsigned int distLine=buttonHeight+5;
+		unsigned int fontWidth=tft->charWidth(&tft->data, MENU_BUTTON_FONT, '0');	
 		unsigned int curTag=tft->touchTag(&tft->data);
 
 		tft->writePrimitive(&tft->data, CMD_DLSTART);
 		tft->writePrimitive(&tft->data, CLEAR_COLOR_HEX(COLOR_BG_LIGHT));//określenie koloru zamalowania całego ekranu (tutaj: szary #555)
 		tft->writePrimitive(&tft->data, CLEAR(1,0,1));	//zamalowanie wszystkich składowych (kolorem określonym powyżej) poszczególnych pikseli
-		tft->writePrimitive(&tft->data, VERTEX_FORMAT(0));
 		
-		PXY pos={25, 25};
+		PXY pos={50, 25};
+		char str[]="Hello";
 	
-		tft->writeString(&tft->data, pos, 29, 0, "Hello", WHITE);
-//		tft->writeFromString(&tft->data, (PXY){50, 25}, 29, 0, "Hello", 3, COLOR_BG_DARK);
-		pos.y+=distLine;
-		tft->writeNumber(&tft->data, pos, 29, 0, 3, WHITE);
+		tft->writeString(&tft->data, pos, TEXT_FONT, 0, str, WHITE);
+		tft->writeNumber(&tft->data, (PXY){pos.x+(fontWidth*(strlen(str)+1)), pos.y}, TEXT_FONT, 0, 333, WHITE);
+		tft->drawToggle(&tft->data, (PXY){pos.x+(fontWidth*(strlen(str)+8)), pos.y}, 60, TEXT_FONT, 0, 0, "off" "\xff" "on", NO_TAG, COLOR_TEXT, ORANGE_DARK, COLOR_BG_DARK);
+		
+		tft->drawGauge(&tft->data, (PXY){FT_DispWidth-200, 75}, 50, OPT_NOBACK, 5, 4, 30, 100, WHITE, 0);
 		tft->drawClock(&tft->data, (PXY){FT_DispWidth-75, 75}, 50, OPT_NOBACK, 1, 35, 10, 0, WHITE, 0);
-//		void drawButton(PTFTgraphFT8XXData *data, PXY position, unsigned int w, unsigned int h, unsigned int font, unsigned int options, const char* str, unsigned int tag, unsigned int color, unsigned int fgColor, unsigned int gradColor);
-//	
-//		void drawProgress(PTFTgraphFT8XXData *data, PXY position, unsigned int w, unsigned int h, unsigned int options, unsigned int val, unsigned int range, unsigned int color, unsigned int bgColor);
+
 		pos.y+=distLine;
-		tft->drawScrollbar(&tft->data, pos, 400, 30, 0, 50, 30, 100, NO_TAG, COLOR_TEXT, COLOR_BG_DARK);		
+		tft->drawProgress(&tft->data, pos, 320, 30, 0, 30, 100, ORANGE_LIGHT, COLOR_BG_LIGHT);
+		pos.y+=distLine;
+		tft->drawScrollbar(&tft->data, pos, 320, 30, 0, 50, 30, 100, NO_TAG, COLOR_TEXT, COLOR_BG_DARK);		
+		pos.y+=distLine;
+		tft->drawSlider(&tft->data, pos, 320, 30, 0, 40, 100, NO_TAG, ORANGE_LIGHT, COLOR_TEXT, COLOR_BG_DARK);
+		pos.y+=distLine;
+		tft->drawButton(&tft->data, pos, 3*buttonHeight, buttonHeight, TEXT_FONT, OPT_FLAT, "Test", NO_TAG, COLOR_TEXT, ORANGE_LIGHT, ORANGE_LIGHT);
 		pos.y+=distLine;
 		tft->drawKeys(&tft->data, pos, 11*buttonHeight, buttonHeight, TEXT_FONT, curTag, "qwertyuiop_", COLOR_TEXT, ORANGE_DARK, ORANGE_LIGHT);
-		pos.y+=2*distLine;
-		tft->drawToggle(&tft->data, pos, 60, TEXT_FONT, 0, 0, "off" "\xff" "on", NO_TAG, COLOR_TEXT, ORANGE_DARK, COLOR_BG_DARK);
-		tft->drawSpinner(&tft->data, (PXY){FT_DispWidth/2, FT_DispHeight/2}, 1, 0, COLOR_TEXT);
 
-	
 		displayCircleIconButton(tft, (PXY){20, 440}, &escapeBitmapHeader, ORANGE_LIGHT, TAG_ESCAPE);
-	
-		tft->writePrimitive(&tft->data, DISPLAY());
-		tft->writePrimitive(&tft->data, CMD_SWAP);
+
+		tft->animateSpinner(&tft->data, (PXY){FT_DispWidth-325, 75}, 0, 0, WHITE);
 
 		tft->waitToCMDbuffEmpty(&tft->data);
 
