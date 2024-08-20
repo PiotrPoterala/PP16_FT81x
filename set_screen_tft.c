@@ -121,8 +121,8 @@ unsigned int graphicsObjectsScreen(PTFTgraph *tft){
 		unsigned int curTag=tft->touchTag(&tft->data);
 
 		tft->writePrimitive(&tft->data, CMD_DLSTART);
-		tft->writePrimitive(&tft->data, CLEAR_COLOR_HEX(COLOR_BG_LIGHT));//określenie koloru zamalowania całego ekranu (tutaj: szary #555)
-		tft->writePrimitive(&tft->data, CLEAR(1,0,1));	//zamalowanie wszystkich składowych (kolorem określonym powyżej) poszczególnych pikseli
+		tft->writePrimitive(&tft->data, CLEAR_COLOR_HEX(COLOR_BG_LIGHT));
+		tft->writePrimitive(&tft->data, CLEAR(1,0,1));	
 		
 		PXY pos={50, 25};
 		char str[]="Hello";
@@ -131,11 +131,12 @@ unsigned int graphicsObjectsScreen(PTFTgraph *tft){
 		tft->writeNumber(&tft->data, (PXY){pos.x+(fontWidth*(strlen(str)+1)), pos.y}, TEXT_FONT, 0, 333, WHITE);
 		tft->drawToggle(&tft->data, (PXY){pos.x+(fontWidth*(strlen(str)+8)), pos.y}, 60, TEXT_FONT, 0, 0, "off" "\xff" "on", NO_TAG, COLOR_TEXT, ORANGE_DARK, COLOR_BG_DARK);
 		
-		tft->drawGauge(&tft->data, (PXY){FT_DispWidth-200, 75}, 50, OPT_NOBACK, 5, 4, 30, 100, WHITE, 0);
-		tft->drawClock(&tft->data, (PXY){FT_DispWidth-75, 75}, 50, OPT_NOBACK, 1, 35, 10, 0, WHITE, 0);
+		tft->drawDial(&tft->data, (PXY){FT_DispWidth-325, 75}, 50, 0, 0x4000, NO_TAG, WHITE, COLOR_BG_DARK);
+		tft->drawGauge(&tft->data, (PXY){FT_DispWidth-200, 75}, 50, 0, 5, 4, 30, 100, WHITE, COLOR_BG_DARK);
+		tft->drawClock(&tft->data, (PXY){FT_DispWidth-75, 75}, 50, 0, 1, 35, 10, 0, WHITE, COLOR_BG_DARK);
 
 		pos.y+=distLine;
-		tft->drawProgress(&tft->data, pos, 320, 30, 0, 30, 100, ORANGE_LIGHT, COLOR_BG_LIGHT);
+		tft->drawProgress(&tft->data, pos, 320, 30, 0, 30, 100, ORANGE_LIGHT, COLOR_BG_DARK);
 		pos.y+=distLine;
 		tft->drawScrollbar(&tft->data, pos, 320, 30, 0, 50, 30, 100, NO_TAG, COLOR_TEXT, COLOR_BG_DARK);		
 		pos.y+=distLine;
@@ -147,7 +148,10 @@ unsigned int graphicsObjectsScreen(PTFTgraph *tft){
 
 		displayCircleIconButton(tft, (PXY){20, 440}, &escapeBitmapHeader, ORANGE_LIGHT, TAG_ESCAPE);
 
-		tft->animateSpinner(&tft->data, (PXY){FT_DispWidth-325, 75}, 0, 0, WHITE);
+		tft->animateSpinner(&tft->data, (PXY){FT_DispWidth-75, 200}, 0, 0, WHITE);
+		
+//		tft->writePrimitive(&tft->data, DISPLAY());
+//		tft->writePrimitive(&tft->data, CMD_SWAP);		these two functions are called inside "animateSpinner"; if we don't use "animateSpinner", we should uncomment these two lines
 
 		tft->waitToCMDbuffEmpty(&tft->data);
 

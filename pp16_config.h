@@ -1,6 +1,5 @@
 #ifndef _PP16_CONFIG_H
 	#define _PP16_CONFIG_H
-//	#include "stm32.h"
 
 	#define BASE_FREQUENCY_OF_SYS_TICK	10
 

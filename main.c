@@ -16,7 +16,6 @@ PTFTgraph tft;
 
 
 int main(void){
-//konfiguracja peryferii
 	
 		RCC_Config();
 		NVIC_Config();

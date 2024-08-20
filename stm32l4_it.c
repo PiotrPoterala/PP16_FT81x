@@ -51,7 +51,7 @@ void UsageFault_Handler(void)
 
 void SysTick_Handler(void)
 {
-	//HAL_IncTick();
+
 }
 
 
@@ -81,8 +81,8 @@ void TIM5_IRQHandler(void)
 
 	static unsigned int touchScreenTag=NO_TAG, prevTouchScreenTag=NO_TAG;
 	
-	if((TIM5->DIER & TIM_DIER_UIE) && (TIM5->SR & TIM_SR_UIF )){	//jeżeli jest włączone przerwanie od przepełnienia timera	i timer się przepełnił to wykonaj podprogram
-		TIM5->SR &= ~TIM_SR_UIF;		//wyzerowanie flagi przerwania
+	if((TIM5->DIER & TIM_DIER_UIE) && (TIM5->SR & TIM_SR_UIF )){
+		TIM5->SR &= ~TIM_SR_UIF;	
 		
 				
 			if(touchScreenTag==NO_TAG && prevTouchScreenTag){
